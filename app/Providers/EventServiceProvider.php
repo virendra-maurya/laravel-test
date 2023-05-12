@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\ProfileCreated;
+use App\Events\ProfileUpdated;
+use App\Listeners\SendProfileCreateNotification;
+use App\Listeners\SendProfileUpdateNotification;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -18,6 +24,12 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
+        ProfileCreated::class => [
+            SendProfileCreateNotification::class
+        ],
+        ProfileUpdated::class => [
+            SendProfileUpdateNotification::class
+        ]
     ];
 
     /**
@@ -25,7 +37,8 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        User::observe(UserObserver::class);
+
     }
 
     /**

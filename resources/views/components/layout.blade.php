@@ -1,23 +1,39 @@
-<!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="h-full bg-white">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Laravel</title>
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
 
-    <!-- Styles -->
-    @vite('resources/css/app.css')
-    @yield('styles')
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+
 </head>
-<body>
+<body class="h-full">
+<div id="app">
+    <div>
+        <x-sidebar />
+        <div class="lg:pl-72">
+            <x-header />
 
-    {{ $slot }}
+            <main class="py-10">
+                <div class="px-4 sm:px-6 lg:px-8">
+                {{ $slot }}
+                </div>
+            </main>
+        </div>
+    </div>
+</div>
+@livewireScripts
 
-    @yield('scripts')
 </body>
 </html>
